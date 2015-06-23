@@ -24,4 +24,4 @@ This one led to a revision of signed vs unsigned integers, data ranges in C and 
 
 The trick is to pass in 20 bytes which is picked in the form of 5 ints and added to get the result.
 
-Ans: $'\xE8\x05\xD9\x1D\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01'
+One of the possible answers: `$'\xE8\x05\xD9\x1D\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01\x01'`
