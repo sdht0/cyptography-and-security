@@ -1,8 +1,6 @@
 Toddler's Bottle
 ================
 
-Mommy, I wanna be a hacker!
-
 Codes: https://gist.github.com/siddharthasahu/f46a965d7ce34a4b24cc
 
 fd
@@ -49,8 +47,8 @@ $ gdb ./bof
 (gdb) r
 (gdb) disassemble
 
-* From `lea    -0x2c(%ebp),%eax` in func+29, we come to know that the position of the `overflowme` variable in the stack, where our input starts getting stored is 0x2c = 44.
-* From function calling conventions, stack order is: arguments -> eip -> ebp -> local variables. So position of `key` is 44 + 4 + 4 = 52 bytes from `overflowme` in the stack.
+* From `lea    -0x2c(%ebp),%eax` in func+29, we come to know that the position of the `overflowme` variable in the stack, where our input starts getting stored is -0x2c = 44 bytes below the frame pointer (ebp).
+* From function calling conventions, stack order is: function arguments -> eip (4 bytes) -> ebp (4 bytes) -> local variables. So position of `key` is 44 + 4 + 4 = 52 bytes from `overflowme` in the stack.
 * From above and keeping in mind little endian systems, input can be: "a"*52+$'\xbe'$'\xba'$'\xfe'$'\xca'
 * Trying: `echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"$'\xbe'$'\xba'$'\xfe'$'\xca' | nc pwnable.kr 9000`. Does not work.
 * I did not solve this, but apparently the above format is closing the shell before commands can be sent.
