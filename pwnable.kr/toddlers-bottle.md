@@ -12,6 +12,7 @@ A simple one.
 
 * atoi(const char *str): Converts the char stream of digits to int 
 * read(int fdes, void *buf, size_t nbyte): Reads `nbytes` bytes into `buf` variable from `fdes` file descriptor. [http://codewiki.wikidot.com/c:system-calls:read]
+* Hex to decimal conversions in bash: http://stackoverflow.com/questions/13280131/hexadecimal-to-decimal-in-shell-script
 
 Rest is simply setting the file descriptor to stdin and passing the matching string:  
 `echo "LETMEWIN" | ./fd 4660`  
