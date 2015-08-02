@@ -3,6 +3,8 @@ Toddler's Bottle
 
 Mommy, I wanna be a hacker!
 
+Codes: https://gist.github.com/siddharthasahu/f46a965d7ce34a4b24cc
+
 fd
 --
 
@@ -11,7 +13,11 @@ A simple one.
 * atoi(const char *str): Converts the char stream of digits to int 
 * read(int fdes, void *buf, size_t nbyte): Reads `nbytes` bytes into `buf` variable from `fdes` file descriptor. [http://codewiki.wikidot.com/c:system-calls:read]
 
-Rest is simply setting the file descriptor to stdin and passing the matching string. Pwned.
+Rest is simply setting the file descriptor to stdin and passing the matching string:  
+`echo "LETMEWIN" | ./fd 4660`  
+or even better: `echo "LETMEWIN" | ./fd $(printf "%d" 0x1234)`
+
+Pwned!
 
 collision
 ---------
