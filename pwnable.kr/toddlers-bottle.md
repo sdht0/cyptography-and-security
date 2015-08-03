@@ -57,7 +57,9 @@ $ gdb ./bof
 
 TODO: Investigate why subshell with cat is needed here.
 
-NOTE: If you try to insert a random big input, it gives a "stack smashing detected" error. Interesting to know, but not relevant to this problem, because the hack is in the function itself.
+NOTES:  
+* If you try to insert a random big input, it gives a "stack smashing detected" error. Interesting to know, but not relevant to this problem, because the hack is in the function itself.
+* For running the binary locally: `while true;do nc -lp 9000 -e ./bof;done` (kill shell to exit)
 
 flag
 ---
