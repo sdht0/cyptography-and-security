@@ -41,13 +41,13 @@ Finally get to learn buffer overflows!
 
 Objective is to replace the value of `key`. So basically one needs to calculate the position of the `key` variable in the stack and send an appropriate input so that it replaces `key` with desired data (0xcafebabe in this case).
 
-GDB commands
-$ gdb ./bof
-(gdb) break func
-(gdb) r
+GDB commands  
+$ gdb ./bof  
+(gdb) break func  
+(gdb) r  
 (gdb) disassemble
 
-* From `lea    -0x2c(%ebp),%eax` in func+29, we come to know that the position of the `overflowme` variable in the stack, where our input starts getting stored is -0x2c = 44 bytes below the frame pointer (ebp).
+* From `lea -0x2c(%ebp),%eax` in func+29, we come to know that the position of the `overflowme` variable in the stack, where our input starts getting stored is -0x2c = 44 bytes below the frame pointer (ebp).
 * From function calling conventions, stack order is: function arguments -> eip (4 bytes) -> ebp (4 bytes) -> local variables. So position of `key` is 44 + 4 + 4 = 52 bytes from `overflowme` in the stack.
 * From above and keeping in mind little endian systems, input can be: "a"*52+$'\xbe'$'\xba'$'\xfe'$'\xca'
 * Trying: `echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"$'\xbe'$'\xba'$'\xfe'$'\xca' | nc pwnable.kr 9000`. Does not work.
@@ -85,17 +85,17 @@ Jackpot! So the binary has been packed. Lets install upx and unpack it.
 $ `upx -d ./flag`
 
 Now we can run normal gdb commands:  
-$ `gdb ./flag`
-(gdb) break main
-(gdb) r
+$ `gdb ./flag`  
+(gdb) break main  
+(gdb) r  
 (gdb) disassemble
 
 * So the function copies the global (because of %rip usage) `flag` variable data to the malloc alllocated memory. We just need to find the address of the flag variable.
 * We can notice the address gets copied to the %rsi register. So setting a breakpoint after the values are copied, we can extract the address.
 
-(gdb) break *0x401195   => address after values are copied, so after the mov %rdx,%rsi and mov %rax,%rdi commands
-(gdb) s
-(gdb) p/x $rsi        => eg 0x496628
+(gdb) break *0x401195   => address after values are copied, so after the mov %rdx,%rsi and mov %rax,%rdi commands  
+(gdb) s  
+(gdb) p/x $rsi        => eg 0x496628  
 (gdb) x/100c $rsi     => Printing flag in character form, we get the string.
 
 Fun!
