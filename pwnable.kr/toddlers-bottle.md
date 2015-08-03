@@ -58,3 +58,42 @@ $ gdb ./bof
 TODO: Investigate why subshell with cat is needed here.
 
 NOTE: If you try to insert a random big input, it gives a "stack smashing detected" error. Interesting to know, but not relevant to this problem, because the hack is in the function itself.
+
+flag
+---
+
+Given just a binary, how to analyse!
+
+% ./flag 
+I will malloc() and strcpy the flag there. take it.
+
+% objdump -D flag
+flag:     file format elf64-x86-64
+
+So, flag is in the binary itself, but the objdump is not succeeding. Expected that it wouldn't be that easy.  
+
+Lets see if we can extract some strings:  
+$ strings < flag
+...
+$Info: This file is packed with the UPX executable packer http://upx.sf.net $
+$Id: UPX 3.08 Copyright (C) 1996-2011 the UPX Team. All Rights Reserved. $
+...
+
+Jackpot! So the binary has been packed. Lets install upx and unpack it.  
+$ upx -d ./flag
+
+Now we can run normal gdb commands:  
+$ gdb ./flag
+(gdb) break main
+(gdb) r
+(gdb) disassemble
+
+* So the function copies the global (because of %rip usage) `flag` variable data to the malloc alllocated memory. We just need to find the address of the flag variable.
+* We can notice the address gets copied to the %rsi register. So runnning the function till the values get copied, we can extract the address.
+
+(gdb) break *0x401195
+(gdb) s
+(gdb) p/x $rsi        => eg 0x496628
+(gdb) x/100c $rsi     => Printing flag in character form, we get the flag.
+
+Fun!
