@@ -76,9 +76,9 @@ So, flag is in the binary itself, but the objdump is not succeeding. Expected th
 
 Lets see if we can extract some strings:  
 $ `strings < flag`  
-...
-$Info: This file is packed with the UPX executable packer http://upx.sf.net $
-$Id: UPX 3.08 Copyright (C) 1996-2011 the UPX Team. All Rights Reserved. $
+...  
+$Info: This file is packed with the UPX executable packer http://upx.sf.net $  
+$Id: UPX 3.08 Copyright (C) 1996-2011 the UPX Team. All Rights Reserved. $  
 ...
 
 Jackpot! So the binary has been packed. Lets install upx and unpack it.  
